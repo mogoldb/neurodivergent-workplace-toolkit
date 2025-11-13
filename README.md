@@ -164,7 +164,7 @@ cat > ~/Library/Application\ Support/Claude/claude_desktop_config.json << 'EOF'
     "neurodivergent-comms": {
       "command": "python3",
       "args": [
-        "/FULL/PATH/TO/neurodivergent-comms-mcp/src/server.py"
+        "/FULL/PATH/TO/neurodivergent-comms-mcp/src/start_server.py"
       ]
     }
   }
@@ -205,7 +205,7 @@ EOF
 
 ```bash
 # Test manually
-python3 /path/to/neurodivergent-comms-mcp/src/server.py
+python3 /path/to/neurodivergent-comms-mcp/src/start_server.py
 
 # Should start without errors (Ctrl+C to stop)
 ```
@@ -232,6 +232,7 @@ Need 3.10+. Install from [python.org](https://www.python.org/downloads/)
 ```
 neurodivergent-comms-mcp/
 ├── src/
+│   ├── start_server.py        # NEW: Auto-installs dependencies and starts server
 │   ├── server.py              # Main MCP server (11 tools, 5 resources)
 │   └── resources/             # Communication rule files
 │       ├── message-clarity.md

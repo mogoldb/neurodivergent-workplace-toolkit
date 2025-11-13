@@ -27,7 +27,7 @@ src/
 ### Run the MCP server manually
 
 ```bash
-python3 src/server.py
+python3 src/start_server.py
 ```
 
 The server will start and wait for MCP protocol connections. Press Ctrl+C to stop.
@@ -110,7 +110,7 @@ Resource files are **instructional guides** for the LLM. They should:
 
 Users install this by:
 1. Installing FastMCP: `python3 -m pip install --user fastmcp`
-2. Configuring Claude Desktop or Q CLI to point to `src/server.py`
+2. Configuring Claude Desktop or Q CLI to point to `src/start_server.py`
 3. Restarting their MCP client
 
 See INSTALL.md for complete installation instructions.
@@ -119,7 +119,7 @@ See INSTALL.md for complete installation instructions.
 
 ### This is NOT a Python Package (Yet)
 
-The project is structured like a package but currently runs as a script. The `[project.scripts]` in pyproject.toml is for future PyPI distribution. Users currently run `src/server.py` directly.
+The project is structured like a package but currently runs as a script. The `[project.scripts]` in pyproject.toml is for future PyPI distribution. Users currently run `src/start_server.py` directly.
 
 ### Path Handling
 
