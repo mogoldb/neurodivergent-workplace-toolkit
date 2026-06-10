@@ -27,9 +27,9 @@ An MCP (Model Context Protocol) server providing workplace communication assista
 
 **Tool design pattern:** Each tool packages the user's input into a structured JSON response framework and returns it to the LLM. The LLM fills in the framework. Tools signal intent and provide structure; the LLM does the analysis. This is intentional — it works well with capable models like Claude.
 
-**Resources** are markdown files in `src/resources/` loaded as background knowledge when tools are called. They give the LLM guidance on tone, clarity, meeting structure, etc.
+**Resources** are markdown files in `nwt/resources/` loaded as background knowledge when tools are called. They give the LLM guidance on tone, clarity, meeting structure, etc.
 
-**Entry point:** `src.server:main` (CLI: `nwt`)
+**Entry point:** `nwt.server:main` (CLI: `nwt`)
 
 ---
 
@@ -37,7 +37,7 @@ An MCP (Model Context Protocol) server providing workplace communication assista
 
 ```
 neurodivergent-workplace-toolkit/
-├── src/
+├── nwt/
 │   ├── __init__.py                    # Package init, version string
 │   ├── server.py                      # MCP server — all 11 tools + 5 resources
 │   └── resources/                     # Knowledge files loaded as MCP resources

@@ -110,4 +110,4 @@ Help me prep for a sprint planning meeting. I'm the tech lead.
 
 **Tool not calling:** Make sure the config JSON is valid (no trailing commas). Use a JSON validator if unsure.
 
-**For development testing:** Use `mcp dev src/server.py` from the repo root for an interactive inspector without needing a full client.
+**For development testing:** Use `mcp dev nwt/server.py` from the repo root for an interactive inspector without needing a full client.

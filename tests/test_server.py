@@ -19,7 +19,7 @@ import pytest
 
 def test_server_imports():
     """Server module imports without error."""
-    import src.server  # noqa: F401
+    import nwt.server  # noqa: F401
 
 
 def test_fastmcp_available():
@@ -56,7 +56,7 @@ EXPECTED_RESOURCES = [
 
 def test_all_tools_registered():
     """All 11 expected tools are registered on the MCP server."""
-    from src.server import mcp
+    from nwt.server import mcp
 
     registered = [tool.name for tool in mcp._tool_manager.list_tools()]
     for tool_name in EXPECTED_TOOLS:
@@ -65,7 +65,7 @@ def test_all_tools_registered():
 
 def test_tool_count():
     """Exactly 11 tools are registered — no more, no less."""
-    from src.server import mcp
+    from nwt.server import mcp
 
     registered = mcp._tool_manager.list_tools()
     assert len(registered) == 11, (
@@ -86,7 +86,7 @@ def _call_tool(tool_func, *args, **kwargs):
 
 
 def test_check_message_returns_json():
-    from src.server import check_message
+    from nwt.server import check_message
 
     result = _call_tool(check_message, draft="Test message", recipient="team")
     assert "input" in result
@@ -95,7 +95,7 @@ def test_check_message_returns_json():
 
 
 def test_decode_message_returns_json():
-    from src.server import decode_message
+    from nwt.server import decode_message
 
     result = _call_tool(
         decode_message, message="When you get a chance, take a look at this."
@@ -105,7 +105,7 @@ def test_decode_message_returns_json():
 
 
 def test_prep_meeting_returns_json():
-    from src.server import prep_meeting
+    from nwt.server import prep_meeting
 
     result = _call_tool(prep_meeting, title="Sprint Planning", your_role="Tech lead")
     assert "input" in result
@@ -113,7 +113,7 @@ def test_prep_meeting_returns_json():
 
 
 def test_scaffold_document_returns_json():
-    from src.server import scaffold_document
+    from nwt.server import scaffold_document
 
     result = _call_tool(scaffold_document, document_content="This is a test document.")
     assert "input" in result
@@ -121,7 +121,7 @@ def test_scaffold_document_returns_json():
 
 
 def test_check_tone_returns_json():
-    from src.server import check_tone
+    from nwt.server import check_tone
 
     result = _call_tool(check_tone, message="I already explained this.")
     assert "input" in result
@@ -129,7 +129,7 @@ def test_check_tone_returns_json():
 
 
 def test_call_or_text_returns_json():
-    from src.server import call_or_text
+    from nwt.server import call_or_text
 
     result = _call_tool(call_or_text, situation="Need to discuss PR feedback")
     assert "input" in result
@@ -137,7 +137,7 @@ def test_call_or_text_returns_json():
 
 
 def test_synthesize_thoughts_returns_json():
-    from src.server import synthesize_thoughts
+    from nwt.server import synthesize_thoughts
 
     result = _call_tool(synthesize_thoughts, brain_dump="lots of scattered ideas here")
     assert "input" in result
@@ -145,7 +145,7 @@ def test_synthesize_thoughts_returns_json():
 
 
 def test_catch_up_thread_returns_json():
-    from src.server import catch_up_thread
+    from nwt.server import catch_up_thread
 
     result = _call_tool(catch_up_thread, thread_content="Email thread content here")
     assert "input" in result
@@ -153,7 +153,7 @@ def test_catch_up_thread_returns_json():
 
 
 def test_summarize_meeting_returns_json():
-    from src.server import summarize_meeting
+    from nwt.server import summarize_meeting
 
     result = _call_tool(
         summarize_meeting, meeting_notes="We decided to ship next week."
@@ -163,7 +163,7 @@ def test_summarize_meeting_returns_json():
 
 
 def test_ask_clarity_returns_json():
-    from src.server import ask_clarity
+    from nwt.server import ask_clarity
 
     result = _call_tool(
         ask_clarity, confusing_situation="Manager said move faster but didn't say what"
@@ -173,7 +173,7 @@ def test_ask_clarity_returns_json():
 
 
 def test_unstuck_reading_returns_json():
-    from src.server import unstuck_reading
+    from nwt.server import unstuck_reading
 
     result = _call_tool(
         unstuck_reading, document_description="40-page technical design doc"
@@ -191,7 +191,7 @@ def test_resource_files_exist():
     """All 5 resource markdown files are present and non-empty."""
     from pathlib import Path
 
-    resources_dir = Path(__file__).parent.parent / "src" / "resources"
+    resources_dir = Path(__file__).parent.parent / "nwt" / "resources"
     expected_files = [
         "message-clarity.md",
         "context-interpretation.md",

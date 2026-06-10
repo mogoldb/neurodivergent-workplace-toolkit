@@ -3,42 +3,27 @@
 Active task tracking for the Neurodivergent Workplace Toolkit.
 Update at the start and end of every session.
 
-**Last Updated:** 2026-04-21
+**Last Updated:** 2026-06-09
 **Current Focus:** PyPI publication + MCP registry submission
 
 ---
 
 ## In Progress
 
-_(none — all immediate fixes complete. See Pending for next steps.)_
+_(none — see Pending for next steps.)_
 
 ---
 
 ## Pending
 
-### 🔴 Manual Steps Required — You Need to Do These
+### 🔴 Manual Step Required — You Need to Do This
 
-Run these commands from your local project directory, in order:
-
-**Step 1 — Remove the personal workflow files from git tracking:**
+**Push the commits and tag (Claude's sandbox has no GitHub credentials):**
 ```bash
-git rm -r --cached .rulesync/ rulesync.jsonc .claude/ .codex/ .gemini/ AUDIT_LOG.md
-```
-These files are now in `.gitignore` and archived in `archive/save_for_reference/`. This command removes them from git without deleting them from disk.
-
-**Step 2 — Commit everything from today's session:**
-```bash
-git add -A
-git commit -m "Post-audit cleanup: fix deps, docs, tests, enrich resources, remove personal workflow files"
-```
-
-**Step 3 — Create and push the v0.1.0 tag:**
-```bash
-git tag v0.1.0
 git push origin main
 git push origin v0.1.0
 ```
-The install docs have been referencing this tag — once pushed, the install instructions actually work.
+The install docs reference the `v0.1.0` tag — once pushed, the install instructions actually work.
 
 ### 🔵 Next Milestone — Discoverability
 
@@ -55,6 +40,13 @@ The install docs have been referencing this tag — once pushed, the install ins
 ---
 
 ## Completed
+
+### Session: 2026-06-09
+
+- [x] **Review + commit the April session changes** — quality review (no slop found), black formatting fixed, all 16 tests passing
+- [x] **Exclude personal files from public repo** — `.mcp.json`, `.geminiignore`, `.rulesyncignore`, `planning/` unstaged and gitignored (still on disk)
+- [x] **Rename package `src` → `nwt`** — fixes top-level `src` module collision before PyPI; updated pyproject.toml, tests, uvx.json, CONTRIBUTING.md, CLAUDE.md, UVX_TESTING_INSTRUCTIONS.md. Wheel verified: imports as `nwt`, 5 resources included, no `src` files.
+- [x] **Tag v0.1.0** — points at the post-rename commit; awaiting push
 
 ### Session: 2026-04-21
 

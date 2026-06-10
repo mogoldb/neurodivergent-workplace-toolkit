@@ -20,8 +20,8 @@ Thank you for considering contributing to the Neurodivergent Workplace Toolkit!
 
 ### Want to Add a Communication Pattern?
 Communication patterns are welcome! Consider:
-- **New Tools**: Add functions to `src/server.py`
-- **New Resources**: Add rule files to `src/resources/`
+- **New Tools**: Add functions to `nwt/server.py`
+- **New Resources**: Add rule files to `nwt/resources/`
 - **Better Examples**: Improve `EXAMPLES.md`
 
 ## Development Setup
@@ -46,7 +46,7 @@ nwt --help
 The server is designed to run inside an MCP client. The quickest way to test during development is with the `mcp` CLI:
 
 ```bash
-mcp dev src/server.py
+mcp dev nwt/server.py
 ```
 
 This starts an interactive inspector where you can call tools directly without needing Claude Desktop.
@@ -62,7 +62,7 @@ pytest
 Format all Python with `black` before submitting:
 
 ```bash
-black src/
+black nwt/
 ```
 
 ## Code Guidelines
@@ -78,7 +78,7 @@ black src/
 1. Fork the repo
 2. Create a branch: `git checkout -b feature/your-feature-name`
 3. Make your changes
-4. Run `black src/` to format
+4. Run `black nwt/` to format
 5. Run `pytest` to check tests pass
 6. Update documentation if needed
 7. Submit a PR with a clear description of what changed and why
