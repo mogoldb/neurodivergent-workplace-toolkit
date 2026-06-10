@@ -26,13 +26,25 @@ Helps with communication challenges common in neurodivergent professionals:
 
 ## Quick Start
 
-Install the package in editable mode:
+Install from PyPI:
 
 ```bash
-pip install -e .
+pip install neurodivergent-workplace-toolkit
 ```
 
-Once installed, you can test it with:
+Then add the server to your MCP client. For Claude Desktop, edit `claude_desktop_config.json` (see [INSTALL.md](INSTALL.md) for Q CLI, Cursor, and other clients):
+
+```json
+{
+  "mcpServers": {
+    "neurodivergent-workplace-toolkit": {
+      "command": "nwt"
+    }
+  }
+}
+```
+
+Restart your client and test it:
 ```
 Can you check this message: Hey team, thoughts on approach B?
 ```
@@ -153,22 +165,18 @@ If you want to contribute to the development of this tool, you can install it fr
 
 ### Installation from Source
 
-**Requirements:**
-- Python 3.10+
-- Claude Desktop or Q CLI
+**Requirements:** Python 3.10+
 
-**Quick install for Claude Desktop (macOS):**
 ```bash
-# Clone repo
 git clone https://github.com/mogoldb/neurodivergent-workplace-toolkit.git
 cd neurodivergent-workplace-toolkit
+pip install -e ".[dev]"
+pytest  # verify all tests pass
+```
 
-# Install dependencies
-python3 -m pip install -e .
+### Install from Git (pin a tag)
 
-## Install from Git (pin a tag)
-
-For stable installs before PyPI, install from a tagged Git ref so updates on `main` don't surprise you:
+To install a specific release directly from Git:
 
 ```bash
 pipx install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
@@ -176,7 +184,7 @@ pipx install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.gi
 pip install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
 ```
 
-Then run the server with:
+Either way, the `nwt` command runs the server:
 
 ```bash
 nwt

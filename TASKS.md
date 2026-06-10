@@ -16,26 +16,32 @@ _(none — see Pending for next steps.)_
 
 ## Pending
 
-### 🔴 Manual Step Required — You Need to Do This
+### 🔴 Manual Steps Required — PyPI Trusted Publishing Setup
 
-**Push the commits and tag (Claude's sandbox has no GitHub credentials):**
-```bash
-git push origin main
-git push origin v0.1.0
-```
-The install docs reference the `v0.1.0` tag — once pushed, the install instructions actually work.
+The publish workflow (`.github/workflows/publish.yml`) publishes to PyPI automatically when a `v*` tag is pushed — no API tokens. One-time setup:
 
-### 🔵 Next Milestone — Discoverability
+1. **Create a PyPI account** at pypi.org (if you don't have one).
+2. **Add a pending trusted publisher** — pypi.org → your account → Publishing → "Add a new pending publisher":
+   - PyPI project name: `neurodivergent-workplace-toolkit`
+   - Owner: `mogoldb`
+   - Repository: `neurodivergent-workplace-toolkit`
+   - Workflow name: `publish.yml`
+   - Environment name: `pypi`
+3. **Create the GitHub environment** — repo → Settings → Environments → New environment → name it `pypi`.
+4. **Push main, then re-point and push the tag** (the existing v0.1.0 tag predates the workflow, so it won't trigger it):
+   ```bash
+   git push origin main
+   git tag -f v0.1.0 && git push -f origin v0.1.0
+   ```
+   The tag push triggers the workflow: tests → build → publish to PyPI.
 
-- [ ] **Publish to PyPI** — makes installation trivially easy (`pip install neurodivergent-workplace-toolkit`). Requires the `v0.1.0` tag to be pushed first. Steps:
-  1. Create a PyPI account at pypi.org if you don't have one
-  2. `pip install build twine`
-  3. `python -m build`
-  4. `twine upload dist/*`
+   *(Alternative if you'd rather not move a pushed tag: `git tag v0.1.1` after bumping `version` in `pyproject.toml` and `nwt/__init__.py`.)*
 
-- [ ] **Submit to MCP registry** — modelcontextprotocol.io/registry. Direct pipeline to the target audience. Requires the package to be installable first (PyPI or stable Git URL).
+### 🔵 Next Milestone — After PyPI
 
-- [ ] **Update README for MCP registry listing** — registry submissions need a clear one-liner, category tags, and install command. Review and tighten the README before submitting.
+- [ ] **Verify the PyPI listing** — check description, keywords, links render correctly at pypi.org/project/neurodivergent-workplace-toolkit
+- [ ] **Submit to MCP registry** — modelcontextprotocol.io/registry. Direct pipeline to the target audience. Requires the package to be installable first (now satisfied once PyPI publish succeeds).
+- [ ] **Rename local folder** to `neurodivergent-workplace-toolkit` (currently `neurodivergent-comms-mcp`) — then re-run `pip install -e ".[dev]"` and re-point any configs/editors referencing the old path. Reconnect the folder in Cowork afterward.
 
 ---
 
@@ -43,6 +49,10 @@ The install docs reference the `v0.1.0` tag — once pushed, the install instruc
 
 ### Session: 2026-06-09
 
+- [x] **Push v0.1.0** — main + tag pushed to GitHub; Git-based install instructions now work
+- [x] **GitHub Actions publish workflow** — `.github/workflows/publish.yml`, PyPI Trusted Publishing (OIDC, no tokens), runs tests before publishing. YAML validated, dist passes `twine check`.
+- [x] **README tightened for registry** — Quick Start now uses PyPI install + client config; fixed unclosed code fence that broke rendering of the bottom half of the README
+- [x] **PyPI metadata added** — keywords, classifiers, license, author, project URLs in pyproject.toml
 - [x] **Review + commit the April session changes** — quality review (no slop found), black formatting fixed, all 16 tests passing
 - [x] **Exclude personal files from public repo** — `.mcp.json`, `.geminiignore`, `.rulesyncignore`, `planning/` unstaged and gitignored (still on disk)
 - [x] **Rename package `src` → `nwt`** — fixes top-level `src` module collision before PyPI; updated pyproject.toml, tests, uvx.json, CONTRIBUTING.md, CLAUDE.md, UVX_TESTING_INSTRUCTIONS.md. Wheel verified: imports as `nwt`, 5 resources included, no `src` files.
