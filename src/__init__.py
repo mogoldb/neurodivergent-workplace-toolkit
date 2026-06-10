@@ -1,3 +1,3 @@
-"""Neurodivergent Communications MCP Server"""
+"""Neurodivergent Workplace Toolkit MCP Server"""
 
 __version__ = "0.1.0"

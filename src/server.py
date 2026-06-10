@@ -1,5 +1,5 @@
 """
-Neurodivergent Communication MCP Server
+Neurodivergent Workplace Toolkit MCP Server
 
 Provides communication assistance tools and resources for neurodivergent
 professionals in technical workplaces.
@@ -10,7 +10,7 @@ from pathlib import Path
 import json
 
 # Initialize MCP server
-mcp = FastMCP("Neurodivergent Communications")
+mcp = FastMCP("Neurodivergent Workplace Toolkit")
 
 # Load resources
 RESOURCES_DIR = Path(__file__).parent / "resources"
@@ -19,6 +19,7 @@ RESOURCES_DIR = Path(__file__).parent / "resources"
 # ============================================================================
 # RESOURCES - Background knowledge for the LLM
 # ============================================================================
+
 
 @mcp.resource("comms://rules/message-clarity")
 def get_message_clarity_rules() -> str:
@@ -59,6 +60,7 @@ def get_document_scaffolding_rules() -> str:
 # TOOLS - Functions the LLM can execute
 # ============================================================================
 
+
 @mcp.tool()
 def check_message(draft: str, recipient: str = "", context: str = "") -> str:
     """
@@ -83,53 +85,56 @@ def check_message(draft: str, recipient: str = "", context: str = "") -> str:
     analysis_sections = {
         "draft": draft,
         "recipient": recipient if recipient else "Not specified",
-        "context": context if context else "Not provided"
+        "context": context if context else "Not provided",
     }
 
     # Return structured format for LLM to fill in
-    return json.dumps({
-        "input": analysis_sections,
-        "analysis_framework": {
-            "clarity_check": {
-                "questions": [
-                    "Is the ask/point clear?",
-                    "Is context sufficient?",
-                    "Are there ambiguous terms?",
-                    "Would recipient know what to do next?"
-                ]
+    return json.dumps(
+        {
+            "input": analysis_sections,
+            "analysis_framework": {
+                "clarity_check": {
+                    "questions": [
+                        "Is the ask/point clear?",
+                        "Is context sufficient?",
+                        "Are there ambiguous terms?",
+                        "Would recipient know what to do next?",
+                    ]
+                },
+                "tone_assessment": {
+                    "questions": [
+                        "Professional level appropriate?",
+                        "Emotional tone clear?",
+                        "Any unintended subtext?",
+                        "Matches relationship with recipient?",
+                    ]
+                },
+                "structure": {
+                    "questions": [
+                        "Key info upfront?",
+                        "Organized logically?",
+                        "Appropriate length?",
+                        "Easy to skim?",
+                    ]
+                },
+                "completeness": {
+                    "questions": [
+                        "All necessary context included?",
+                        "Questions answered proactively?",
+                        "Action items clear?",
+                        "Timeline specified if needed?",
+                    ]
+                },
             },
-            "tone_assessment": {
-                "questions": [
-                    "Professional level appropriate?",
-                    "Emotional tone clear?",
-                    "Any unintended subtext?",
-                    "Matches relationship with recipient?"
-                ]
+            "output_format": {
+                "strengths": "List what works well",
+                "issues": "List what needs fixing (be specific)",
+                "revised_version": "Show improved version if issues found",
+                "quick_fix": "One-liner summary of main change needed",
             },
-            "structure": {
-                "questions": [
-                    "Key info upfront?",
-                    "Organized logically?",
-                    "Appropriate length?",
-                    "Easy to skim?"
-                ]
-            },
-            "completeness": {
-                "questions": [
-                    "All necessary context included?",
-                    "Questions answered proactively?",
-                    "Action items clear?",
-                    "Timeline specified if needed?"
-                ]
-            }
         },
-        "output_format": {
-            "strengths": "List what works well",
-            "issues": "List what needs fixing (be specific)",
-            "revised_version": "Show improved version if issues found",
-            "quick_fix": "One-liner summary of main change needed"
-        }
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -157,27 +162,30 @@ def decode_message(message: str, sender: str = "", relationship: str = "") -> st
     analysis_data = {
         "message": message,
         "sender": sender if sender else "Not specified",
-        "relationship": relationship if relationship else "Not specified"
+        "relationship": relationship if relationship else "Not specified",
     }
 
-    return json.dumps({
-        "input": analysis_data,
-        "decode_framework": {
-            "explicit_ask": "What they literally said they want",
-            "implicit_ask": "What they actually want (read between the lines)",
-            "actual_deadline": "Real timeline (decode vague phrases like 'when you get a chance')",
-            "success_criteria": "What does 'done' look like? What are they trying to unblock?",
-            "expected_response": "Do they want: action, information, acknowledgment, or something else?",
-            "communication_pattern": "Identify pattern (e.g., 'polite urgent request', 'checking in', 'soft deadline')"
+    return json.dumps(
+        {
+            "input": analysis_data,
+            "decode_framework": {
+                "explicit_ask": "What they literally said they want",
+                "implicit_ask": "What they actually want (read between the lines)",
+                "actual_deadline": "Real timeline (decode vague phrases like 'when you get a chance')",
+                "success_criteria": "What does 'done' look like? What are they trying to unblock?",
+                "expected_response": "Do they want: action, information, acknowledgment, or something else?",
+                "communication_pattern": "Identify pattern (e.g., 'polite urgent request', 'checking in', 'soft deadline')",
+            },
+            "common_vague_phrases": {
+                "when you get a chance": "Usually means within 1-2 days unless stated otherwise",
+                "no rush": "Often still has implicit deadline - check context",
+                "thoughts?": "Usually wants specific feedback or approval to proceed",
+                "can you take a look?": "Wants review/feedback, possibly approval",
+                "just checking in": "Either needs status update or gentle deadline reminder",
+            },
         },
-        "common_vague_phrases": {
-            "when you get a chance": "Usually means within 1-2 days unless stated otherwise",
-            "no rush": "Often still has implicit deadline - check context",
-            "thoughts?": "Usually wants specific feedback or approval to proceed",
-            "can you take a look?": "Wants review/feedback, possibly approval",
-            "just checking in": "Either needs status update or gentle deadline reminder"
-        }
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -205,26 +213,29 @@ def prep_meeting(title: str, your_role: str, agenda: str = "") -> str:
     prep_data = {
         "meeting_title": title,
         "your_role": your_role,
-        "agenda": agenda if agenda else "No agenda provided"
+        "agenda": agenda if agenda else "No agenda provided",
     }
 
-    return json.dumps({
-        "input": prep_data,
-        "preparation_framework": {
-            "your_contribution": "What you'll likely need to speak about based on your role",
-            "talking_points": "2-3 concise points to communicate (structure: context → options → ask)",
-            "questions_to_ask": "What you should clarify or ask others",
-            "your_asks": "What you need from others in this meeting",
-            "blockers_to_raise": "Issues that might block progress",
-            "decoded_agenda": "What each agenda item actually means / what's expected"
+    return json.dumps(
+        {
+            "input": prep_data,
+            "preparation_framework": {
+                "your_contribution": "What you'll likely need to speak about based on your role",
+                "talking_points": "2-3 concise points to communicate (structure: context → options → ask)",
+                "questions_to_ask": "What you should clarify or ask others",
+                "your_asks": "What you need from others in this meeting",
+                "blockers_to_raise": "Issues that might block progress",
+                "decoded_agenda": "What each agenda item actually means / what's expected",
+            },
+            "meeting_structure_tips": {
+                "opening": "State your point upfront if asked to speak",
+                "middle": "Provide necessary context only",
+                "closing": "End with clear question or next step",
+                "fallback": "If unsure when to speak, ask 'Would it help if I shared context on X?'",
+            },
         },
-        "meeting_structure_tips": {
-            "opening": "State your point upfront if asked to speak",
-            "middle": "Provide necessary context only",
-            "closing": "End with clear question or next step",
-            "fallback": "If unsure when to speak, ask 'Would it help if I shared context on X?'"
-        }
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -255,29 +266,32 @@ def scaffold_document(document_content: str, document_title: str = "") -> str:
 
     scaffold_data = {
         "document_title": document_title if document_title else "Untitled document",
-        "content_length": f"{len(document_content)} characters"
+        "content_length": f"{len(document_content)} characters",
     }
 
-    return json.dumps({
-        "input": scaffold_data,
-        "scaffolding_framework": {
-            "core_purpose": "What this document is trying to accomplish (1 sentence)",
-            "key_entities": "Main concepts, systems, or terms with brief definitions",
-            "structure_map": {
-                "description": "List sections and what each covers",
-                "format": "Section name → What it contains"
+    return json.dumps(
+        {
+            "input": scaffold_data,
+            "scaffolding_framework": {
+                "core_purpose": "What this document is trying to accomplish (1 sentence)",
+                "key_entities": "Main concepts, systems, or terms with brief definitions",
+                "structure_map": {
+                    "description": "List sections and what each covers",
+                    "format": "Section name → What it contains",
+                },
+                "required_action": "What the reader needs to do after reading",
+                "prerequisite_knowledge": "What you need to know before this makes sense",
+                "reading_strategy": {
+                    "start_with": "Which section to read first",
+                    "focus_on": "Key information to prioritize",
+                    "skip_if_needed": "Less critical parts you can skim",
+                    "watch_for": "Important details not to miss",
+                },
             },
-            "required_action": "What the reader needs to do after reading",
-            "prerequisite_knowledge": "What you need to know before this makes sense",
-            "reading_strategy": {
-                "start_with": "Which section to read first",
-                "focus_on": "Key information to prioritize",
-                "skip_if_needed": "Less critical parts you can skim",
-                "watch_for": "Important details not to miss"
-            }
+            "document_content": document_content,
         },
-        "document_content": document_content
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -309,34 +323,37 @@ def check_tone(message: str, recipient: str = "", relationship: str = "") -> str
     tone_data = {
         "message": message,
         "recipient": recipient if recipient else "Not specified",
-        "relationship": relationship if relationship else "Not specified"
+        "relationship": relationship if relationship else "Not specified",
     }
 
-    return json.dumps({
-        "input": tone_data,
-        "tone_assessment_framework": {
-            "professional_level": {
-                "current": "Assess formality (formal/standard/casual)",
-                "appropriate": "Should it be at this level for this recipient?"
+    return json.dumps(
+        {
+            "input": tone_data,
+            "tone_assessment_framework": {
+                "professional_level": {
+                    "current": "Assess formality (formal/standard/casual)",
+                    "appropriate": "Should it be at this level for this recipient?",
+                },
+                "emotional_tone": {
+                    "perceived_emotion": "What emotion does this convey?",
+                    "intended_emotion": "What did you intend?",
+                },
+                "potential_misinterpretations": {
+                    "could_sound_rude": "Check if direct language might seem rude",
+                    "could_sound_defensive": "Check if explanation sounds defensive",
+                    "could_sound_dismissive": "Check if brevity might seem dismissive",
+                },
+                "relationship_match": "Is tone appropriate for your relationship with recipient?",
             },
-            "emotional_tone": {
-                "perceived_emotion": "What emotion does this convey?",
-                "intended_emotion": "What did you intend?"
+            "red_flags_to_check": {
+                "all_caps": "ALL CAPS (except acronyms)",
+                "multiple_exclamation": "Multiple !!!",
+                "sarcasm": "Sarcastic language",
+                "unintended_curtness": "Accidentally curt/abrupt",
             },
-            "potential_misinterpretations": {
-                "could_sound_rude": "Check if direct language might seem rude",
-                "could_sound_defensive": "Check if explanation sounds defensive",
-                "could_sound_dismissive": "Check if brevity might seem dismissive"
-            },
-            "relationship_match": "Is tone appropriate for your relationship with recipient?"
         },
-        "red_flags_to_check": {
-            "all_caps": "ALL CAPS (except acronyms)",
-            "multiple_exclamation": "Multiple !!!",
-            "sarcasm": "Sarcastic language",
-            "unintended_curtness": "Accidentally curt/abrupt"
-        }
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -363,31 +380,34 @@ def call_or_text(situation: str, urgency: str = "", complexity: str = "") -> str
     decision_data = {
         "situation": situation,
         "urgency": urgency if urgency else "Not specified",
-        "complexity": complexity if complexity else "Not specified"
+        "complexity": complexity if complexity else "Not specified",
     }
 
-    return json.dumps({
-        "input": decision_data,
-        "decision_framework": {
-            "urgency_assessment": {
-                "immediate": "Call/video - needs resolution now",
-                "today": "Call or detailed message - needs attention today",
-                "this_week": "Message likely fine - can be async",
-                "no_deadline": "Message - gives them time to process"
+    return json.dumps(
+        {
+            "input": decision_data,
+            "decision_framework": {
+                "urgency_assessment": {
+                    "immediate": "Call/video - needs resolution now",
+                    "today": "Call or detailed message - needs attention today",
+                    "this_week": "Message likely fine - can be async",
+                    "no_deadline": "Message - gives them time to process",
+                },
+                "complexity_assessment": {
+                    "needs_discussion": "Call/video - multiple decision points",
+                    "needs_clarification": "Quick call or video - faster than async",
+                    "straightforward": "Message - clear enough for async",
+                    "yes_no_question": "Message - simple response needed",
+                },
+                "recommendation": {
+                    "method": "call | text | video",
+                    "reasoning": "Why this method is best for this situation",
+                    "alternative": "If primary method doesn't work, try this",
+                },
             },
-            "complexity_assessment": {
-                "needs_discussion": "Call/video - multiple decision points",
-                "needs_clarification": "Quick call or video - faster than async",
-                "straightforward": "Message - clear enough for async",
-                "yes_no_question": "Message - simple response needed"
-            },
-            "recommendation": {
-                "method": "call | text | video",
-                "reasoning": "Why this method is best for this situation",
-                "alternative": "If primary method doesn't work, try this"
-            }
-        }
-    }, indent=2)
+        },
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -412,27 +432,27 @@ def synthesize_thoughts(brain_dump: str) -> str:
         Structured message with both concise and full versions
     """
 
-    return json.dumps({
-        "input": {
-            "brain_dump": brain_dump,
-            "word_count": len(brain_dump.split())
-        },
-        "synthesis_framework": {
-            "core_message": "Distill to 1-2 sentence essence",
-            "key_themes": "Identify main themes from the details",
-            "logical_structure": {
-                "suggested_flow": "Best order to present these ideas",
-                "groupings": "Which points belong together"
+    return json.dumps(
+        {
+            "input": {"brain_dump": brain_dump, "word_count": len(brain_dump.split())},
+            "synthesis_framework": {
+                "core_message": "Distill to 1-2 sentence essence",
+                "key_themes": "Identify main themes from the details",
+                "logical_structure": {
+                    "suggested_flow": "Best order to present these ideas",
+                    "groupings": "Which points belong together",
+                },
+                "concise_version": "3-4 sentences hitting the key points",
+                "full_version": "Complete message with all important details organized",
             },
-            "concise_version": "3-4 sentences hitting the key points",
-            "full_version": "Complete message with all important details organized"
+            "bottom_up_process": {
+                "details_provided": "The Lego pieces (your brain dump)",
+                "structure_identified": "How the pieces fit together",
+                "final_built": "The finished structure",
+            },
         },
-        "bottom_up_process": {
-            "details_provided": "The Lego pieces (your brain dump)",
-            "structure_identified": "How the pieces fit together",
-            "final_built": "The finished structure"
-        }
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -458,25 +478,28 @@ def catch_up_thread(thread_content: str, thread_subject: str = "") -> str:
     thread_data = {
         "subject": thread_subject if thread_subject else "No subject provided",
         "message_count": thread_content.count("\n\n") + 1,
-        "content_length": f"{len(thread_content)} characters"
+        "content_length": f"{len(thread_content)} characters",
     }
 
-    return json.dumps({
-        "input": thread_data,
-        "catch_up_framework": {
-            "current_state": "Where things stand right now",
-            "key_decisions": "Decisions that have been made in this thread",
-            "your_action_items": "What they need from you specifically",
-            "deadlines": "Any timeline or deadline mentioned",
-            "blockers": {
-                "who_is_blocked": "Who is waiting on something",
-                "blocked_on_what": "What they're waiting for",
-                "blocked_on_you": "Are they waiting on you?"
+    return json.dumps(
+        {
+            "input": thread_data,
+            "catch_up_framework": {
+                "current_state": "Where things stand right now",
+                "key_decisions": "Decisions that have been made in this thread",
+                "your_action_items": "What they need from you specifically",
+                "deadlines": "Any timeline or deadline mentioned",
+                "blockers": {
+                    "who_is_blocked": "Who is waiting on something",
+                    "blocked_on_what": "What they're waiting for",
+                    "blocked_on_you": "Are they waiting on you?",
+                },
+                "next_response": "What you should respond with",
             },
-            "next_response": "What you should respond with"
+            "thread_content": thread_content,
         },
-        "thread_content": thread_content
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -501,24 +524,27 @@ def summarize_meeting(meeting_notes: str, meeting_title: str = "") -> str:
 
     meeting_data = {
         "title": meeting_title if meeting_title else "Untitled meeting",
-        "notes_length": f"{len(meeting_notes)} characters"
+        "notes_length": f"{len(meeting_notes)} characters",
     }
 
-    return json.dumps({
-        "input": meeting_data,
-        "summary_framework": {
-            "key_decisions": "Decisions that were made",
-            "action_items": {
-                "format": "List each action with who/what/when",
-                "your_items": "Action items assigned to you",
-                "others_items": "Action items assigned to others"
+    return json.dumps(
+        {
+            "input": meeting_data,
+            "summary_framework": {
+                "key_decisions": "Decisions that were made",
+                "action_items": {
+                    "format": "List each action with who/what/when",
+                    "your_items": "Action items assigned to you",
+                    "others_items": "Action items assigned to others",
+                },
+                "open_questions": "Questions raised but not answered",
+                "blockers": "Issues that could block progress",
+                "your_next_steps": "What you need to do immediately after this meeting",
             },
-            "open_questions": "Questions raised but not answered",
-            "blockers": "Issues that could block progress",
-            "your_next_steps": "What you need to do immediately after this meeting"
+            "meeting_notes": meeting_notes,
         },
-        "meeting_notes": meeting_notes
-    }, indent=2)
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -547,28 +573,31 @@ def ask_clarity(confusing_situation: str, person_to_ask: str = "") -> str:
 
     clarity_data = {
         "situation": confusing_situation,
-        "asking": person_to_ask if person_to_ask else "Not specified"
+        "asking": person_to_ask if person_to_ask else "Not specified",
     }
 
-    return json.dumps({
-        "input": clarity_data,
-        "clarity_request_framework": {
-            "safe_opening_phrases": [
-                "To confirm...",
-                "Want to make sure I understand...",
-                "Just to clarify...",
-                "Help me understand...",
-                "Quick question to make sure we're aligned..."
-            ],
-            "specific_questions": "List the specific things you need clarified",
-            "collaborative_tone": {
-                "frame_as": "Ensuring alignment, not questioning their clarity",
-                "avoid": "Anything that sounds like 'you were unclear'",
-                "emphasize": "Your need to understand, not their failure to explain"
+    return json.dumps(
+        {
+            "input": clarity_data,
+            "clarity_request_framework": {
+                "safe_opening_phrases": [
+                    "To confirm...",
+                    "Want to make sure I understand...",
+                    "Just to clarify...",
+                    "Help me understand...",
+                    "Quick question to make sure we're aligned...",
+                ],
+                "specific_questions": "List the specific things you need clarified",
+                "collaborative_tone": {
+                    "frame_as": "Ensuring alignment, not questioning their clarity",
+                    "avoid": "Anything that sounds like 'you were unclear'",
+                    "emphasize": "Your need to understand, not their failure to explain",
+                },
+                "draft_message": "Complete draft message asking for clarity",
             },
-            "draft_message": "Complete draft message asking for clarity"
-        }
-    }, indent=2)
+        },
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -592,33 +621,42 @@ def unstuck_reading(document_description: str, blocking_issue: str = "") -> str:
 
     unstuck_data = {
         "document": document_description,
-        "blocking_issue": blocking_issue if blocking_issue else "Not specified"
+        "blocking_issue": blocking_issue if blocking_issue else "Not specified",
     }
 
-    return json.dumps({
-        "input": unstuck_data,
-        "unstuck_framework": {
-            "identify_blocker": {
-                "lack_of_context": "Don't understand why this document exists",
-                "unclear_purpose": "Don't know what you need from it",
-                "overwhelming_length": "Too long, don't know where to start",
-                "focus_uncertainty": "Don't know what's important vs not"
+    return json.dumps(
+        {
+            "input": unstuck_data,
+            "unstuck_framework": {
+                "identify_blocker": {
+                    "lack_of_context": "Don't understand why this document exists",
+                    "unclear_purpose": "Don't know what you need from it",
+                    "overwhelming_length": "Too long, don't know where to start",
+                    "focus_uncertainty": "Don't know what's important vs not",
+                },
+                "concrete_first_step": "Single specific action to take right now",
+                "reading_strategy": {
+                    "order": "What to read in what order",
+                    "focus": "What to pay attention to",
+                    "skip": "What you can skip or skim for now",
+                },
+                "focus_first": "The one thing to focus on first before anything else",
             },
-            "concrete_first_step": "Single specific action to take right now",
-            "reading_strategy": {
-                "order": "What to read in what order",
-                "focus": "What to pay attention to",
-                "skip": "What you can skip or skim for now"
-            },
-            "focus_first": "The one thing to focus on first before anything else"
-        }
-    }, indent=2)
+        },
+        indent=2,
+    )
 
 
 # ============================================================================
 # Server startup
 # ============================================================================
 
+
+def main():
+    """Main entry point to run the server."""
+    mcp.run()
+
+
 if __name__ == "__main__":
     # Run the MCP server
-    mcp.run()
+    main()

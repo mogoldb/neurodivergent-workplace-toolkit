@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for considering contributing to the Neurodivergent Communications MCP Server!
+Thank you for considering contributing to the Neurodivergent Workplace Toolkit!
 
 ## How to Contribute
 
@@ -27,32 +27,61 @@ Communication patterns are welcome! Consider:
 ## Development Setup
 
 ```bash
-# Clone the repo
-git clone https://github.com/YOUR_USERNAME/neurodivergent-comms-mcp.git
-cd neurodivergent-comms-mcp
+# Clone the repo (fork first if you're an external contributor)
+git clone https://github.com/mogoldb/neurodivergent-workplace-toolkit.git
+cd neurodivergent-workplace-toolkit
 
-# Install dependencies
-pip install fastmcp
+# Install the project with dev dependencies
+pip install -e ".[dev]"
+```
 
-# Test your changes
-python src/server.py
+After install, the `nwt` CLI command will be available. To verify:
+
+```bash
+nwt --help
+```
+
+### Testing Your Changes
+
+The server is designed to run inside an MCP client. The quickest way to test during development is with the `mcp` CLI:
+
+```bash
+mcp dev src/server.py
+```
+
+This starts an interactive inspector where you can call tools directly without needing Claude Desktop.
+
+To run the automated test suite:
+
+```bash
+pytest
+```
+
+### Code Style
+
+Format all Python with `black` before submitting:
+
+```bash
+black src/
 ```
 
 ## Code Guidelines
 
-- **Keep it simple**: This is for neurodivergent users - clarity matters
+- **Keep it simple**: This is for neurodivergent users — clarity matters
 - **Be specific**: Vague advice isn't helpful
 - **Test thoroughly**: Try it with real communication scenarios
 - **Document well**: Explain why, not just what
+- **Stay true to the philosophy**: Neurodivergent patterns are *different, not deficient* — never suggest users mask their natural style
 
 ## Pull Request Process
 
 1. Fork the repo
 2. Create a branch: `git checkout -b feature/your-feature-name`
 3. Make your changes
-4. Test thoroughly
-5. Update documentation if needed
-6. Submit a PR with clear description of changes
+4. Run `black src/` to format
+5. Run `pytest` to check tests pass
+6. Update documentation if needed
+7. Submit a PR with a clear description of what changed and why
 
 ## Communication Patterns We'd Love
 
@@ -60,10 +89,11 @@ python src/server.py
 - Additional neurodivergent communication styles
 - Language/cultural variations
 - Industry-specific patterns (academia, healthcare, etc.)
+- Platform-specific installation guides (Linux, Windows, Q CLI)
 
 ## Questions?
 
-Open an issue or discussion - we're here to help!
+Open an issue or discussion — we're here to help!
 
 ---
 

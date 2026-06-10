@@ -1,6 +1,6 @@
-# Neurodivergent Communications MCP Server
+# Neurodivergent Workplace Toolkit
 
-**Communication assistance tools for neurodivergent professionals in technical workplaces.**
+**Workplace communication assistance for neurodivergent professionals in technical roles.**
 
 Works with Claude Desktop, Amazon Q CLI, and any MCP-compatible AI system.
 
@@ -26,31 +26,17 @@ Helps with communication challenges common in neurodivergent professionals:
 
 ## Quick Start
 
-### 1. Install
+Install the package in editable mode:
 
-See **[INSTALL.md](INSTALL.md)** for detailed instructions.
-
-**TL;DR:**
 ```bash
-# Install FastMCP
-python3 -m pip install --user fastmcp
-
-# Clone this repo
-git clone https://github.com/mogoldb/neurodivergent-comms-mcp.git
-
-# Configure Claude Desktop or Q CLI (see INSTALL.md)
+pip install -e .
 ```
 
-### 2. Try It
-
-See **[EXAMPLES.md](EXAMPLES.md)** for real-world usage examples.
-
-**Quick test:**
+Once installed, you can test it with:
 ```
 Can you check this message: Hey team, thoughts on approach B?
 ```
 
-Your AI assistant should analyze it for clarity, tone, and effectiveness!
 
 ---
 
@@ -138,44 +124,6 @@ Write once, use everywhere. No platform lock-in.
 
 ---
 
-## Installation
-
-**Full guide:** [INSTALL.md](INSTALL.md)
-
-**Requirements:**
-- Python 3.10+
-- Claude Desktop or Q CLI
-- 5 minutes
-
-**Quick install for Claude Desktop (macOS):**
-```bash
-# Install FastMCP
-python3 -m pip install --user fastmcp
-
-# Clone repo
-git clone https://github.com/mogoldb/neurodivergent-comms-mcp.git
-cd neurodivergent-comms-mcp
-
-# Configure Claude Desktop
-mkdir -p ~/Library/Application\ Support/Claude
-cat > ~/Library/Application\ Support/Claude/claude_desktop_config.json << 'EOF'
-{
-  "mcpServers": {
-    "neurodivergent-comms": {
-      "command": "python3",
-      "args": [
-        "/FULL/PATH/TO/neurodivergent-comms-mcp/src/start_server.py"
-      ]
-    }
-  }
-}
-EOF
-
-# Update the path above, then restart Claude Desktop
-```
-
----
-
 ## Usage Examples
 
 **Full examples:** [EXAMPLES.md](EXAMPLES.md)
@@ -199,52 +147,39 @@ EOF
 
 ---
 
-## Troubleshooting
+## For Developers/Contributors
 
-### Server won't start
+If you want to contribute to the development of this tool, you can install it from source.
+
+### Installation from Source
+
+**Requirements:**
+- Python 3.10+
+- Claude Desktop or Q CLI
+
+**Quick install for Claude Desktop (macOS):**
+```bash
+# Clone repo
+git clone https://github.com/mogoldb/neurodivergent-workplace-toolkit.git
+cd neurodivergent-workplace-toolkit
+
+# Install dependencies
+python3 -m pip install -e .
+
+## Install from Git (pin a tag)
+
+For stable installs before PyPI, install from a tagged Git ref so updates on `main` don't surprise you:
 
 ```bash
-# Test manually
-python3 /path/to/neurodivergent-comms-mcp/src/start_server.py
-
-# Should start without errors (Ctrl+C to stop)
+pipx install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
+# or
+pip install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
 ```
 
-### Tools not showing up
+Then run the server with:
 
-1. Completely quit and restart Claude Desktop (Cmd+Q)
-2. Check config file exists:
-   ```bash
-   cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
-   ```
-3. Verify Python 3.10+: `python3 --version`
-
-### Wrong Python version
-
-Need 3.10+. Install from [python.org](https://www.python.org/downloads/)
-
-**More help:** See [INSTALL.md](INSTALL.md) troubleshooting section.
-
----
-
-## File Structure
-
-```
-neurodivergent-comms-mcp/
-├── src/
-│   ├── start_server.py        # NEW: Auto-installs dependencies and starts server
-│   ├── server.py              # Main MCP server (11 tools, 5 resources)
-│   └── resources/             # Communication rule files
-│       ├── message-clarity.md
-│       ├── context-interpretation.md
-│       ├── tone-calibration.md
-│       ├── meeting-structure.md
-│       └── document-scaffolding.md
-├── INSTALL.md                 # Installation guide
-├── EXAMPLES.md                # Real-world usage examples
-├── README.md                  # This file
-├── pyproject.toml            # Python package config
-└── example-qcli-config.json  # Example Q CLI config
+```bash
+nwt
 ```
 
 ---
@@ -258,23 +193,6 @@ Found a communication pattern that would help? PRs welcome!
 - More example prompts
 - Platform-specific installation guides
 - Bug fixes and improvements
-
----
-
-## Roadmap
-
-**v1.0 (Current):**
-- ✅ 11 core communication tools
-- ✅ 5 communication resource files
-- ✅ Claude Desktop support
-- ✅ Q CLI support
-
-**Future:**
-- [ ] Publish to PyPI (installable via `pip install neurodivergent-comms-mcp`)
-- [ ] Add workplace-specific integrations (Slack, email, etc.)
-- [ ] Conversation memory (remember your communication preferences)
-- [ ] Additional tools based on user feedback
-- [ ] Support for more MCP clients (Cursor, etc.)
 
 ---
 

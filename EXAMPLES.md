@@ -556,7 +556,7 @@ If they say "Just general thoughts":
 - If you had time: "I reviewed the doc. General approach makes sense - I like [X]. Question about [Y]"
 - If you skimmed: "I took a first pass. High-level makes sense. Want to dig deeper into [X]"
 
-**User feedback:** After this advice, user pointed out the tool should have recommended scaffolding the document first - which is absolutely right! This shows the tool is learning and improving.
+> **Tip:** If you have the document text available, try `scaffold_document` first — it gives you a structural map of the whole doc before you dive in. `unstuck_reading` and `scaffold_document` work well together.
 
 ---
 

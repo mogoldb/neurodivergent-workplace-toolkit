@@ -1,0 +1,10 @@
+{
+  "name": "neurodivergent-workplace-toolkit",
+  "version": "0.1.0",
+  "description": "MCP server providing workplace communication assistance for neurodivergent professionals",
+  "entrypoint": "src/server.py",
+  "dependencies": {
+    "mcp": ">=1.0.0"
+  },
+  "python": ">=3.10"
+}

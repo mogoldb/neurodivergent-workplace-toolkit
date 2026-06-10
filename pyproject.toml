@@ -1,7 +1,7 @@
 [project]
-name = "neurodivergent-comms-mcp"
+name = "neurodivergent-workplace-toolkit"
 version = "0.1.0"
-description = "MCP server providing communication assistance for neurodivergent professionals"
+description = "MCP server providing workplace communication assistance for neurodivergent professionals"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -15,7 +15,8 @@ dev = [
 ]
 
 [project.scripts]
-neurodivergent-comms-mcp = "src.server:main"
+# Short, memorable CLI entry point for the toolkit
+nwt = "src.server:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -23,3 +24,8 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
+include = ["/src/resources"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+cache_dir = "/tmp/.pytest_cache"

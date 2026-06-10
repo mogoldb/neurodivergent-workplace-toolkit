@@ -1,282 +1,150 @@
 # Installation Guide
 
-Get the Neurodivergent Communications MCP server running on your computer.
+Get the Neurodivergent Workplace Toolkit running on your computer.
 
 ---
 
 ## Prerequisites
 
-- **Python 3.10+** (required for FastMCP)
-- **Claude Desktop** OR **Q CLI** (Amazon's Q Developer CLI)
-- 5 minutes
+- **Python 3.10+**
+- An MCP-compatible AI client — Claude Desktop, Amazon Q CLI, Cursor, or similar
+- **pipx** or **pip** (for installing the package)
 
 ---
 
-## Quick Install
+## Quick Install — All Platforms
 
-### For Claude Desktop (Personal Computer)
-
-#### 1. Check Python Version
+Install directly from Git (pinned to a release tag for stability):
 
 ```bash
-python3 --version
+pipx install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
 ```
 
-Need Python 3.10+? Install from [python.org](https://www.python.org/downloads/)
-
-Or check if you already have it:
-```bash
-which python3.10 python3.11 python3.12
-```
-
-#### 2. Install FastMCP
+Or with pip:
 
 ```bash
-# If you have python3.10+
-python3 -m pip install --user fastmcp
-
-# Or if you found a specific version like python3.10
-/usr/local/bin/python3.10 -m pip install --user fastmcp
+pip install "git+https://github.com/mogoldb/neurodivergent-workplace-toolkit.git@v0.1.0"
 ```
 
-#### 3. Download/Clone This Repository
+After install, the `nwt` command will be available on your PATH.
 
-```bash
-cd ~/Desktop
-# If you have git:
-git clone https://github.com/YOUR_USERNAME/neurodivergent-comms-mcp.git
+> **Note:** Once the package is published to PyPI, you'll be able to install with `pip install neurodivergent-workplace-toolkit` — no Git URL needed.
 
-# Or download and extract the ZIP
-```
+---
 
-#### 4. Configure Claude Desktop
+## Configure Your MCP Client
 
-Create/edit the config file:
+After installing, tell your AI client where to find the server.
 
-**macOS:**
-```bash
-# Create directory if needed
-mkdir -p ~/Library/Application\ Support/Claude
+### Claude Desktop (macOS)
 
-# Edit the config (use your preferred editor)
-nano ~/Library/Application\ Support/Claude/claude_desktop_config.json
-```
-
-**Windows:**
-```bash
-# Create directory
-mkdir %APPDATA%\Claude
-
-# Edit the config
-notepad %APPDATA%\Claude\claude_desktop_config.json
-```
-
-**Paste this config** (update the path to where you put the files):
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "neurodivergent-comms": {
-      "command": "python3",
-      "args": [
-        "/FULL/PATH/TO/neurodivergent-comms-mcp/src/server.py"
-      ]
+    "neurodivergent-workplace-toolkit": {
+      "command": "nwt"
     }
   }
 }
 ```
 
-**Important:** Replace `/FULL/PATH/TO/` with your actual path!
+If the file doesn't exist, create it. Then restart Claude Desktop.
 
-Example:
-- macOS: `/Users/yourname/Desktop/neurodivergent-comms-mcp/src/server.py`
-- Windows: `C:\\Users\\yourname\\Desktop\\neurodivergent-comms-mcp\\src\\server.py`
+### Claude Desktop (Windows)
 
-If you have Python 3.10 specifically, use the full path:
+Edit `%APPDATA%\Claude\claude_desktop_config.json`:
+
 ```json
-"command": "/usr/local/bin/python3.10",
+{
+  "mcpServers": {
+    "neurodivergent-workplace-toolkit": {
+      "command": "nwt"
+    }
+  }
+}
 ```
 
-#### 5. Restart Claude Desktop
+Restart Claude Desktop.
 
-**Completely quit** (not just close window):
-- macOS: `Cmd+Q`
-- Windows: Right-click system tray → Quit
+### Claude Desktop (Linux)
 
-Then reopen Claude Desktop.
+Edit `~/.config/Claude/claude_desktop_config.json`:
 
-#### 6. Test It!
-
-In a new Claude chat, try:
-```
-Can you check this message: Hey team, thoughts on approach B?
-```
-
-Claude should call the `check_message` tool and analyze it!
-
-See `EXAMPLES.md` for real-world usage examples.
-
----
-
-### For Q CLI (Work Computer - Amazon)
-
-#### 1. Check Python
-
-```bash
-python3 --version  # Need 3.10+
-```
-
-#### 2. Install FastMCP
-
-```bash
-python3 -m pip install --user fastmcp
-```
-
-#### 3. Download This Repository
-
-```bash
-cd ~/
-git clone https://github.com/YOUR_USERNAME/neurodivergent-comms-mcp.git
-```
-
-#### 4. Configure Q CLI
-
-Edit the example config:
-
-```bash
-cd neurodivergent-comms-mcp
-cp example-qcli-config.json my-comms-agent.json
-
-# Edit to update the path
-nano my-comms-agent.json
-```
-
-Update this line to your actual path:
 ```json
-"args": ["/Users/yourname/neurodivergent-comms-mcp/src/server.py"]
+{
+  "mcpServers": {
+    "neurodivergent-workplace-toolkit": {
+      "command": "nwt"
+    }
+  }
+}
 ```
 
-#### 5. Install to Q CLI
+Restart Claude Desktop.
 
-```bash
-# Symlink your config
-ln -sf ~/neurodivergent-comms-mcp/my-comms-agent.json ~/.aws/amazonq/cli-agents/comms.json
+### Amazon Q CLI
+
+Edit `~/.aws/amazonq/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "neurodivergent-workplace-toolkit": {
+      "command": "nwt"
+    }
+  }
+}
 ```
 
-#### 6. Test It!
+### Cursor
 
-```bash
-q chat --agent comms
+In Cursor settings, under **MCP Servers**, add:
+
+```json
+{
+  "neurodivergent-workplace-toolkit": {
+    "command": "nwt"
+  }
+}
 ```
 
-Then try:
-```
-Check this email: Hey team, any thoughts on the API approach?
-```
+### Other MCP Clients
+
+The server uses stdio transport. Configure using the `nwt` command with no additional arguments.
 
 ---
 
-## Troubleshooting
+## Verify the Installation
 
-### "FastMCP not found" or Import Errors
+After restarting your client, try:
 
-**Solution:** Make sure you installed with the Python version you're using:
-
-```bash
-# If using python3.10 specifically
-/usr/local/bin/python3.10 -m pip install --user fastmcp
-
-# Then update your config to use that exact python
-"command": "/usr/local/bin/python3.10"
+```
+Can you check this email before I send it:
+"Hey team, just wanted to circle back on the migration. Thoughts?"
 ```
 
-### "Server won't start" or "Connection failed"
-
-**Test the server manually:**
-```bash
-python3 /path/to/neurodivergent-comms-mcp/src/server.py
-```
-
-Should start without errors. Press `Ctrl+C` to stop.
-
-**Check for errors:**
-- Wrong Python version (need 3.10+)
-- Wrong path in config file
-- FastMCP not installed for that Python version
-
-### "Tools not showing up"
-
-1. **Completely quit and restart** Claude Desktop or Q CLI
-2. **Check config file exists:**
-   ```bash
-   # Claude Desktop (macOS)
-   cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-   # Q CLI
-   cat ~/.aws/amazonq/cli-agents/comms.json
-   ```
-3. **Check paths are absolute** (not relative like `./src/server.py`)
-
-### "Permission denied"
-
-Make the script executable:
-```bash
-chmod +x /path/to/neurodivergent-comms-mcp/src/server.py
-```
-
-### Python 3.9 or older?
-
-You need to upgrade to Python 3.10+:
-- **macOS:** `brew install python@3.10` or download from python.org
-- **Windows:** Download from python.org
-- **Linux:** `sudo apt install python3.10` or `sudo yum install python3.10`
+If the client calls the `check_message` tool and returns an analysis, everything is working.
 
 ---
 
-## Verify Installation
-
-### Check Server Runs
-```bash
-python3 /path/to/neurodivergent-comms-mcp/src/server.py
-```
-Should start and wait (no errors). Press `Ctrl+C` to stop.
-
-### Check FastMCP Installed
-```bash
-python3 -c "import mcp.server.fastmcp; print('✓ FastMCP OK')"
-```
-Should print: `✓ FastMCP OK`
-
-### Check Config File
-```bash
-# Claude Desktop (macOS)
-cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-# Q CLI
-cat ~/.aws/amazonq/cli-agents/comms.json
-```
-Should show your MCP server configuration.
-
----
-
-## What's Installed?
-
-After successful installation, you have:
+## What's Included
 
 **11 Communication Tools:**
-1. check_message - Analyze drafts
-2. decode_message - Decode vague messages
-3. prep_meeting - Meeting preparation
-4. scaffold_document - Preview doc structure
-5. check_tone - Tone validation
-6. call_or_text - Recommend communication method
-7. synthesize_thoughts - Organize brain dumps
-8. catch_up_thread - Summarize email threads
-9. summarize_meeting - Extract decisions/actions
-10. ask_clarity - Draft clarity requests
-11. unstuck_reading - Get unstuck on documents
+1. check_message — Analyze drafts for clarity, tone, structure
+2. decode_message — Decode vague messages
+3. prep_meeting — Meeting preparation
+4. scaffold_document — Preview doc structure
+5. check_tone — Tone validation
+6. call_or_text — Recommend communication method
+7. synthesize_thoughts — Organize brain dumps
+8. catch_up_thread — Summarize email/Slack threads
+9. summarize_meeting — Extract decisions and actions
+10. ask_clarity — Draft polite clarification requests
+11. unstuck_reading — Get unstuck on overwhelming documents
 
-**5 Communication Resources** (loaded automatically as background knowledge):
+**5 Communication Resources** (loaded automatically):
 - Message clarity patterns
 - Context interpretation guidelines
 - Tone calibration rules
@@ -285,31 +153,37 @@ After successful installation, you have:
 
 ---
 
-## Uninstalling
+## For Developers / Contributors
 
-### Claude Desktop
 ```bash
-# macOS
-rm ~/Library/Application\ Support/Claude/claude_desktop_config.json
+# Clone the repo
+git clone https://github.com/mogoldb/neurodivergent-workplace-toolkit.git
+cd neurodivergent-workplace-toolkit
 
-# Windows
-del %APPDATA%\Claude\claude_desktop_config.json
+# Install with dev dependencies
+pip install -e ".[dev]"
 ```
 
-### Q CLI
-```bash
-rm ~/.aws/amazonq/cli-agents/comms.json
-```
-
-Then delete the repository folder if you want.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full development setup.
 
 ---
 
-## Getting Help
+## Troubleshooting
 
-**Issues?** Check `EXAMPLES.md` for usage examples.
+**`nwt` command not found:** Make sure the install location is on your PATH. With pipx this is automatic; with pip you may need to add `~/.local/bin` (Linux/macOS) or `%APPDATA%\Python\Scripts` (Windows) to your PATH.
 
-**Still stuck?** Open an issue on GitHub with:
-- Your OS and Python version
-- Error messages
-- What you tried
+**Server not appearing in client:** Restart the client after editing the config file. Check that the JSON is valid (no trailing commas).
+
+**Tool not being called:** Try phrasing your request more explicitly: "Use the check_message tool to analyze this email..." — clients may need a nudge to activate MCP tools.
+
+---
+
+## Uninstalling
+
+```bash
+pipx uninstall neurodivergent-workplace-toolkit
+# or
+pip uninstall neurodivergent-workplace-toolkit
+```
+
+Then remove the `mcpServers` entry from your client config.

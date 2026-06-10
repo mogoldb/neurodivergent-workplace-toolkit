@@ -41,3 +41,23 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# AI assistant personal workflow files (not part of the public project)
+# CLAUDE.md is intentionally tracked — it's a clean project context file
+# Everything below is personal multi-agent infrastructure and should not be committed
+.rulesync/
+rulesync.jsonc
+rulesyncignore
+.rulesyncignore
+.claude/
+.codex/
+.gemini/
+.geminiignore
+.mcp.json
+AUDIT_LOG.md
+
+# Internal planning docs — not part of the public project
+planning/
+
+# Local archive — personal workflow files archived for reference, not part of the public project
+archive/
